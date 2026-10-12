@@ -1,6 +1,6 @@
 # Текст озвучки — The Banking Panic of 1907: Why the Fed Was Created
 
-Кадров: 305. Хронометраж без спонсора: 16:06. Темп 2,8 слова/сек.
+Кадров: 305. Хронометраж: 16:06. Темп 2,8 слова/сек.
 
 Файл в двух частях: сначала сплошной английский текст для записи, потом построчно EN + RU с таймкодами.
 
@@ -40,7 +40,6 @@ The biggest test came on the first weekend of November. A brokerage called Moore
 
 Morgan's rescue held, and the damage still landed on workers and farmers. In the year after the panic, industrial production fell by about 11%, imports dropped 26%, and unemployment went from under 3% to around 8%. Immigration to the United States fell from 1.2 million people in 1907 to about 750,000 in 1909. Now, you might be wondering why anyone wanted a central bank after Morgan pulled off that rescue. It's a fair question, and people in Washington were asking it too. For three weeks, the safety of the entire American banking system had depended on one 70-year-old man and his partners. Senator Nelson Aldrich of Rhode Island said it plainly: "Something has got to be done. We may not always have Pierpont Morgan with us to meet a banking crisis." A lot of Americans also didn't like how the rescue had worked. U.S. Steel had picked up a major competitor in Tennessee for about $45 million, and critics said Morgan had used the panic to hand his own company a deal. Senator Robert La Follette went further and claimed Wall Street had engineered the panic on purpose. So the country came out of 1907 afraid of two things at once, another panic like the one it had just lived through, and a money system run out of Wall Street.
 
-**[ЗДЕСЬ ИНТЕГРАЦИЯ СПОНСОРА, 60-75 сек]** Мост: *"Washington spent the next five years arguing about how to fix this. Before we get to that, ..."*
 
 ### БЛОК 9. ДОРОГА К ФРС
 
@@ -402,7 +401,6 @@ In March 2023, customers of Silicon Valley Bank tried to pull $42 billion out in
 
 Спасательная операция Моргана сработала, но удар всё равно пришёлся по рабочим и фермерам. В год после паники промышленное производство упало примерно на 11%, импорт сократился на 26%, а безработица выросла с менее чем 3% примерно до 8%. Иммиграция в США сократилась с 1,2 миллиона человек в 1907 году примерно до 750 тысяч в 1909-м. Вы, возможно, спросите: зачем кому-то понадобился центральный банк, если Морган провёл такое спасение? Вопрос справедливый, и в Вашингтоне его задавали тоже. Три недели безопасность всей банковской системы США зависела от одного 70-летнего человека и его партнёров. Сенатор Нельсон Олдрич из Род-Айленда сказал прямо: «Что-то нужно делать. Пирпонта Моргана может не оказаться рядом в следующий банковский кризис». Многим американцам к тому же не нравилось, как было устроено это спасение. U.S. Steel заполучила крупного конкурента в Теннесси примерно за 45 миллионов долларов, и критики говорили, что Морган использовал панику, чтобы устроить выгодную сделку своей же компании. Сенатор Роберт Лафоллет пошёл дальше и заявил, что Уолл-стрит устроила панику намеренно. Так что из 1907 года страна вышла с двумя страхами сразу, новой паники вроде только что пережитой и денежной системы, которой управляет Уолл-стрит.
 
-**[ИНТЕГРАЦИЯ СПОНСОРА]**
 
 ### БЛОК 9. ДОРОГА К ФРС
 
