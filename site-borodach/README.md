@@ -30,6 +30,19 @@
 - Отправку формы: сейчас `submit` обрабатывается на клиенте и никуда не уходит.
   Подключите CRM/Telegram-бота в обработчике `form.addEventListener("submit", …)`.
 
+## Публикация в интернете
+
+См. `DEPLOY.md`: домен, хостинг, Яндекс.Вебмастер, 2ГИС и Яндекс Бизнес.
+Для настоящего хостинга собирайте страницу скриптом:
+
+```
+python3 build.py   # → dist/index.html + robots.txt + sitemap.xml
+```
+
+В `dist/index.html` добавляются `<!doctype>`, мета-теги, Open Graph и
+разметка Schema.org `HairSalon` — без них поисковики не поймут, что это
+барбершоп в Москве. Данные для подстановки — в начале `build.py`.
+
 ## Технически
 
 - Один файл, inline CSS и JS; шрифты — Google Fonts (Oswald, Prata, Manrope).
