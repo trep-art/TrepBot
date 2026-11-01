@@ -1,0 +1,798 @@
+<title>Garderob Store</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Jost:wght@300;400;500;600&family=Cormorant:ital,wght@1,400;1,500&display=swap">
+<style>
+/* Layout: журнальная сетка — узкая колонна текста слева, крупные карточки-витрины справа;
+   бумага и чернила, единственный акцент — вишня, появляется не чаще раза на экран. */
+:root{
+  --paper:#F7F5F2;
+  --paper-2:#EDE9E4;
+  --paper-3:#E3DED7;
+  --ink:#16151A;
+  --ink-soft:#3A3842;
+  --mist:#817D89;      /* тёплый серый с уклоном в акцент */
+  --cherry:#8E1E3C;
+  --cherry-soft:#B04A5E;
+  --line:#DCD6CF;
+  --card:#FFFFFF;
+
+  --display:"Tenor Sans","Optima",Georgia,serif;
+  --italic:"Cormorant",Georgia,serif;
+  --body:"Jost","Futura","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#141317;--paper-2:#1C1A20;--paper-3:#24212A;
+    --ink:#F2EFEB;--ink-soft:#C9C4CE;--mist:#9A95A3;
+    --cherry:#E0768F;--cherry-soft:#C45A76;
+    --line:#2E2B34;--card:#1A181E;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141317;--paper-2:#1C1A20;--paper-3:#24212A;
+  --ink:#F2EFEB;--ink-soft:#C9C4CE;--mist:#9A95A3;
+  --cherry:#E0768F;--cherry-soft:#C45A76;
+  --line:#2E2B34;--card:#1A181E;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{background:var(--paper)}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;
+  background:var(--paper)}
+img{max-width:100%}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;text-wrap:balance;font-weight:400}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--cherry);outline-offset:3px}
+
+.wrap{max-width:1200px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px))}
+section{position:relative;z-index:2}
+.band{padding-block:clamp(52px,7vw,104px)}
+.band--alt{background:var(--paper-2)}
+.band+.band{border-top:1px solid var(--line)}
+
+.eyebrow{font-family:var(--body);font-weight:500;font-size:11px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--cherry);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--cherry);flex:0 0 auto}
+.h2{font-family:var(--display);font-size:clamp(28px,4.6vw,52px);line-height:1.04;letter-spacing:-.01em;
+  margin-block:18px 16px}
+.lead{color:var(--mist);max-width:60ch;font-size:clamp(15px,1.3vw,17.5px);font-weight:300}
+.quote{font-family:var(--italic);font-style:italic;font-size:clamp(19px,2.2vw,27px);line-height:1.38;color:var(--ink-soft)}
+
+/* кнопки */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--body);font-weight:500;letter-spacing:.14em;text-transform:uppercase;font-size:12px;
+  padding:16px 28px;border:1px solid var(--ink);border-radius:0;cursor:pointer;text-decoration:none;
+  background:var(--ink);color:var(--paper);overflow:hidden;transition:background .3s,color .3s,transform .3s}
+.btn span{position:relative;z-index:2}
+.btn::before{content:"";position:absolute;inset:0;background:var(--cherry);transform:translateY(101%);
+  transition:transform .4s cubic-bezier(.19,1,.22,1)}
+.btn:hover{border-color:var(--cherry);transform:translateY(-2px)}
+.btn:hover::before{transform:translateY(0)}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn--ghost:hover{color:var(--paper)}
+.btn--wide{width:100%}
+
+/* шапка */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top-in{display:flex;align-items:center;gap:24px;padding-block:15px}
+.logo{text-decoration:none;flex:0 0 auto;line-height:1.05}
+.logo b{display:block;font-family:var(--display);font-weight:400;font-size:19px;letter-spacing:.2em;text-transform:uppercase}
+.logo small{display:block;font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--mist);margin-top:3px}
+nav.main{display:flex;gap:26px;margin-left:auto}
+nav.main a{font-size:13px;font-weight:300;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);position:relative}
+nav.main a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--cherry);transition:width .28s}
+nav.main a:hover::after{width:100%}
+.progress{position:absolute;left:0;bottom:-1px;height:2px;background:var(--cherry);width:0}
+@media(max-width:940px){nav.main{display:none}}
+
+/* герой */
+.hero{padding-block:clamp(44px,6vw,86px) clamp(44px,6vw,80px);overflow:hidden}
+.hero-in{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(26px,4vw,60px);align-items:center}
+@media(max-width:940px){.hero-in{grid-template-columns:1fr}}
+.hero h1{font-family:var(--display);font-size:clamp(34px,6.4vw,74px);line-height:1;letter-spacing:-.015em;
+  margin-block:22px 20px}
+.hero h1 .ln{display:block;overflow:hidden}
+.hero h1 .ln>span{display:block;transform:translateY(103%);animation:rise 1s cubic-bezier(.19,1,.22,1) forwards}
+.hero h1 .ln:nth-child(2)>span{animation-delay:.09s}
+.hero h1 .ln:nth-child(3)>span{animation-delay:.18s}
+.hero h1 i{font-family:var(--italic);font-style:italic;color:var(--cherry)}
+@keyframes rise{to{transform:translateY(0)}}
+.hero-cta{display:flex;flex-wrap:wrap;gap:13px;margin-top:28px}
+.facts{display:flex;flex-wrap:wrap;gap:0 34px;margin-top:34px;padding-top:22px;border-top:1px solid var(--line)}
+.facts div{min-width:0}
+.facts b{display:block;font-family:var(--display);font-size:clamp(19px,2.1vw,24px);font-weight:400}
+.facts span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mist)}
+
+/* витрина-карточка в герое */
+.showcase{position:relative;background:var(--card);border:1px solid var(--line);padding:22px}
+.showcase .frame{aspect-ratio:4/5;max-width:100%;background:var(--paper-3);display:grid;place-items:center;
+  overflow:hidden;position:relative}
+.showcase .frame svg{height:84%;width:auto;transition:transform .8s cubic-bezier(.19,1,.22,1)}
+.showcase:hover .frame svg{transform:scale(1.05)}
+.showcase .ph{position:absolute;bottom:10px;left:10px;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--mist);background:color-mix(in srgb,var(--paper) 80%,transparent);padding:4px 8px}
+.showcase .cap{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-top:18px}
+.showcase h3{font-family:var(--display);font-size:19px;line-height:1.2}
+.showcase .cap p{font-size:12.5px;color:var(--mist);margin-top:5px}
+.hold{display:flex;align-items:center;gap:9px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--mist);font-weight:300}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--cherry);flex:0 0 auto;
+  box-shadow:0 0 0 0 color-mix(in srgb,var(--cherry) 70%,transparent);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px transparent}100%{box-shadow:0 0 0 0 transparent}}
+
+/* бегущая строка */
+.marquee{overflow:hidden;border-block:1px solid var(--line);background:var(--paper);padding-block:13px}
+.marquee-in{display:flex;width:max-content;animation:slide 34s linear infinite}
+.marquee span{font-family:var(--display);font-size:clamp(12px,1.4vw,15px);letter-spacing:.26em;text-transform:uppercase;
+  color:var(--mist);white-space:nowrap;display:flex;align-items:center;gap:40px;padding-right:40px}
+.marquee span::after{content:"✦";color:var(--cherry);font-size:9px}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* категории */
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:42px}
+@media(max-width:880px){.cats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:470px){.cats{grid-template-columns:1fr}}
+.cat{background:var(--card);border:1px solid var(--line);text-decoration:none;display:block;
+  transition:transform .35s,border-color .35s;min-width:0}
+.cat:hover{transform:translateY(-5px);border-color:var(--cherry)}
+.cat .frame{aspect-ratio:3/4;max-width:100%;background:var(--paper-3);display:grid;place-items:center;overflow:hidden}
+.cat .frame svg{height:78%;width:auto;transition:transform .7s cubic-bezier(.19,1,.22,1)}
+.cat:hover .frame svg{transform:scale(1.07) rotate(-1deg)}
+.cat .t{padding:17px 19px 20px;display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.cat h4{font-family:var(--display);font-size:17px}
+.cat span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
+
+/* шаги */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);margin-top:42px;
+  border:1px solid var(--line)}
+@media(max-width:880px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:470px){.steps{grid-template-columns:1fr}}
+.step{background:var(--paper);padding:26px 22px 30px;transition:background .3s}
+.step:hover{background:var(--card)}
+.step i{font-style:normal;font-family:var(--display);font-size:12px;letter-spacing:.2em;color:var(--cherry)}
+.step h4{font-family:var(--display);font-size:17px;margin-block:13px 9px}
+.step p{font-size:13.5px;color:var(--mist);font-weight:300}
+
+/* квиз */
+.quiz{background:var(--card);border:1px solid var(--line);padding:clamp(22px,4vw,44px);margin-top:40px;max-width:880px}
+.qbar{height:2px;background:var(--paper-3);margin-block:20px 26px}
+.qbar i{display:block;height:100%;background:var(--cherry);width:25%;transition:width .45s}
+.qstep{display:none}
+.qstep.on{display:block;animation:fade .45s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+.qstep h3{font-family:var(--display);font-size:clamp(20px,2.6vw,30px);line-height:1.12;margin-bottom:20px}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+@media(max-width:620px){.opts{grid-template-columns:1fr}}
+.opt{text-align:left;background:var(--paper);border:1px solid var(--line);padding:16px 18px;cursor:pointer;
+  transition:border-color .22s,transform .22s;min-width:0}
+.opt:hover{border-color:var(--cherry);transform:translateX(3px)}
+.opt b{display:block;font-size:15px;font-weight:500}
+.opt span{font-size:12.5px;color:var(--mist);font-weight:300}
+.qres{display:none}
+.qres.on{display:block;animation:fade .5s ease both}
+.promo{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-block:22px;padding:18px 20px;
+  background:var(--paper);border:1px dashed var(--cherry)}
+.promo code{font-family:var(--display);font-size:clamp(18px,2.6vw,25px);letter-spacing:.12em;color:var(--cherry)}
+.qback{background:none;border:0;color:var(--mist);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;padding:0;margin-top:18px}
+.qback:hover{color:var(--ink)}
+
+/* капсулы / лукбук */
+.looks{display:flex;gap:16px;margin-top:40px;overflow-x:auto;padding-bottom:12px;scroll-snap-type:x mandatory}
+.look{flex:0 0 clamp(250px,32vw,340px);scroll-snap-align:start;background:var(--card);border:1px solid var(--line);
+  min-width:0}
+.look .frame{aspect-ratio:3/4;max-width:100%;background:var(--paper-3);display:grid;place-items:center;position:relative}
+.look .frame svg{height:82%;width:auto}
+.look .ph{position:absolute;bottom:10px;left:10px;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--mist);background:color-mix(in srgb,var(--paper) 80%,transparent);padding:4px 8px}
+.look .t{padding:18px 20px 22px}
+.look h4{font-family:var(--display);font-size:18px}
+.look p{font-size:13px;color:var(--mist);margin-top:7px;font-weight:300}
+.look ul{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.look li{font-size:13px;display:flex;gap:9px}
+.look li::before{content:"—";color:var(--cherry);flex:0 0 auto}
+
+/* шоурумы */
+.rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:42px}
+@media(max-width:880px){.rooms{grid-template-columns:1fr}}
+.room{background:var(--card);border:1px solid var(--line);padding:26px 24px 28px;transition:border-color .3s}
+.room:hover{border-color:var(--cherry)}
+.room i{font-style:normal;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--cherry)}
+.room h4{font-family:var(--display);font-size:21px;margin-block:12px 8px}
+.room p{font-size:13.5px;color:var(--mist);font-weight:300}
+.room .h{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;
+  font-variant-numeric:tabular-nums}
+
+/* отзывы */
+.revs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+@media(max-width:880px){.revs{grid-template-columns:1fr}}
+.rev{background:var(--card);border:1px solid var(--line);padding:26px 24px}
+.rev .st{color:var(--cherry);letter-spacing:.2em;font-size:12px}
+.rev p{margin-block:14px;font-size:14.5px;color:var(--ink-soft);font-weight:300}
+.rev b{font-size:13.5px;font-weight:500}
+.rev span{font-size:12px;color:var(--mist);display:block;margin-top:2px}
+.rev.slot{border-style:dashed;background:transparent}
+.rev.slot p{color:var(--mist)}
+
+/* гарантии */
+.gr{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin-top:40px;
+  border:1px solid var(--line)}
+@media(max-width:880px){.gr{grid-template-columns:1fr}}
+.gr div{background:var(--paper);padding:26px 24px}
+.gr h4{font-family:var(--display);font-size:17px;margin-block:14px 8px}
+.gr p{font-size:13.5px;color:var(--mist);font-weight:300}
+
+/* FAQ */
+.faq{margin-top:38px;max-width:840px;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding-block:19px;display:flex;gap:16px;align-items:flex-start;
+  font-family:var(--display);font-size:clamp(15px,1.7vw,19px);transition:color .2s}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";margin-left:auto;color:var(--cherry);font-size:21px;line-height:1;transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq summary:hover{color:var(--cherry)}
+.faq p{padding-bottom:21px;color:var(--mist);font-size:14.5px;max-width:64ch;font-weight:300}
+
+/* финальный CTA */
+.final{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,54px);align-items:center}
+@media(max-width:880px){.final{grid-template-columns:1fr}}
+.contacts li{display:flex;gap:14px;padding-block:14px;border-bottom:1px solid var(--line);font-size:14.5px;
+  flex-wrap:wrap}
+.contacts li>span:first-child{flex:0 0 104px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mist);padding-top:4px}
+.copy{background:none;border:1px solid var(--line);color:var(--mist);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;padding:4px 9px;cursor:pointer;margin-left:8px}
+.copy:hover{border-color:var(--cherry);color:var(--cherry)}
+
+footer{border-top:1px solid var(--line);background:var(--paper-2);padding-block:36px 104px}
+.foot{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;font-size:12.5px;
+  color:var(--mist);font-weight:300}
+
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:55;background:color-mix(in srgb,var(--paper) 94%,transparent);
+  backdrop-filter:blur(12px);border-top:1px solid var(--line);
+  padding-top:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;align-items:center;gap:16px;transform:translateY(130%);
+  transition:transform .45s cubic-bezier(.2,.9,.2,1)}
+.sticky.on{transform:none}
+.sticky .txt{flex:1;min-width:0}
+.sticky b{display:block;font-family:var(--display);font-size:14.5px}
+.sticky span{font-size:12px;color:var(--mist);font-weight:300}
+.sticky .btn{padding:12px 20px;flex:0 0 auto}
+@media(max-width:560px){.sticky b{font-size:12.5px}.sticky span{font-size:11px}.sticky .btn{padding:11px 15px;font-size:10.5px}}
+
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translate(-50%,22px);
+  background:var(--ink);color:var(--paper);padding:13px 20px;font-size:13.5px;z-index:70;opacity:0;
+  pointer-events:none;transition:all .34s;max-width:90vw}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+html.anim .reveal{opacity:0;transform:translateY(20px);
+  transition:opacity .75s cubic-bezier(.19,1,.22,1),transform .75s cubic-bezier(.19,1,.22,1)}
+html.anim .reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  html.anim .reveal{opacity:1;transform:none}
+}
+</style>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="logo" href="#top"><b>Garderob</b><small>Store · Челны</small></a>
+    <nav class="main">
+      <a href="#cats">Категории</a>
+      <a href="#how">Как купить</a>
+      <a href="#quiz">Подбор образа</a>
+      <a href="#looks">Капсулы</a>
+      <a href="#rooms">Шоурумы</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <a class="btn" href="https://t.me/garderob_store_chelny" target="_blank" rel="noopener"><span>Новинки в Telegram</span></a>
+    <i class="progress" id="prog"></i>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap hero-in">
+    <div>
+      <p class="eyebrow">Набережные Челны · три шоурума · 10:00–21:00</p>
+      <h1>
+        <span class="ln"><span>Примерьте то,</span></span>
+        <span class="ln"><span>что завтра</span></span>
+        <span class="ln"><span><i>уже разберут</i></span></span>
+      </h1>
+      <p class="lead">Шоурум женской одежды и обуви. Привозим вещи по одной-две в каждом размере:
+        то, что вы видите в канале сегодня, через неделю обычно уже не вернуть. Примерка без обязательств —
+        приходите смотреть, даже если не готовы покупать.</p>
+      <div class="hero-cta">
+        <a class="btn" href="https://t.me/garderob_store_chelny" target="_blank" rel="noopener"><span>Смотреть новинки</span></a>
+        <a class="btn btn--ghost" href="#quiz"><span>Подобрать образ</span></a>
+      </div>
+      <div class="facts">
+        <div><b>3</b><span>шоурума в городе</span></div>
+        <div><b>10:00–21:00</b><span>без выходных</span></div>
+        <div><b>24 часа</b><span>держим вещь по брони</span></div>
+      </div>
+    </div>
+
+    <aside class="showcase reveal">
+      <div class="frame">
+        <svg viewBox="0 0 220 300" aria-hidden="true">
+          <rect width="220" height="300" fill="none"/>
+          <g fill="none" stroke="#16151A" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" opacity=".82">
+            <path d="M88 36c0 10 9 16 22 16s22-6 22-16"/>
+            <path d="M88 36 58 58l-12 44 20 7 8-22"/>
+            <path d="M132 36l30 22 12 44-20 7-8-22"/>
+            <path d="M74 87c-4 44-10 84-16 122 18 7 36 10 52 10s34-3 52-10c-6-38-12-78-16-122"/>
+            <path d="M74 150h92" stroke-width="1.4" opacity=".5"/>
+          </g>
+          <path d="M110 52v167" stroke="#8E1E3C" stroke-width="1.4" opacity=".55"/>
+          <circle cx="110" cy="120" r="3" fill="#8E1E3C"/>
+        </svg>
+        <span class="ph">место под фото</span>
+      </div>
+      <div class="cap">
+        <div>
+          <h3>Новинка недели</h3>
+          <p>Название, состав и цена — подставляются из канала</p>
+        </div>
+      </div>
+      <p class="hold"><i class="dot"></i>Размеры S, M — по одной вещи. Отложим на сутки по сообщению менеджеру.</p>
+      <div style="margin-top:16px"><a class="btn btn--wide" href="#final"><span>Написать менеджеру</span></a></div>
+    </aside>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-in">
+    <span>Платья</span><span>Костюмы</span><span>Верхняя одежда</span><span>Обувь</span><span>Трикотаж</span><span>Сумки</span>
+    <span>Платья</span><span>Костюмы</span><span>Верхняя одежда</span><span>Обувь</span><span>Трикотаж</span><span>Сумки</span>
+  </div>
+</div>
+
+<!-- КАТЕГОРИИ -->
+<section class="band" id="cats">
+  <div class="wrap">
+    <p class="eyebrow reveal">Что есть в наличии</p>
+    <h2 class="h2 reveal">Шесть полок, с которых начинают</h2>
+    <p class="lead reveal">Наличие размеров меняется каждый день, поэтому точный список — в канале.
+      Здесь — направления, по которым можно спросить менеджера.</p>
+    <div class="cats">
+      <a class="cat reveal" href="https://t.me/garderob_store_chelny" target="_blank" rel="noopener">
+        <div class="frame"><svg viewBox="0 0 160 220" aria-hidden="true"><g fill="none" stroke="#16151A" stroke-width="2" stroke-linecap="round" opacity=".8">
+          <path d="M62 24c0 8 7 13 18 13s18-5 18-13"/><path d="M62 24 44 40l-8 30 14 5 6-16"/><path d="M98 24l18 16 8 30-14 5-6-16"/>
+          <path d="M54 62c-3 32-9 74-16 112 14 6 28 9 42 9s28-3 42-9c-7-38-13-80-16-112"/></g>
+          <path d="M80 37v160" stroke="#8E1E3C" stroke-width="1.2" opacity=".45"/></svg></div>
+        <div class="t"><h4>Платья</h4><span>в канале</span></div>
+      </a>
+      <a class="cat reveal" href="https://t.me/garderob_store_chelny" target="_blank" rel="noopener">
+        <div class="frame"><svg viewBox="0 0 160 220" aria-hidden="true"><g fill="none" stroke="#16151A" stroke-width="2" stroke-linecap="round" opacity=".8">
+          <path d="M60 26 40 42l-6 54 16 4"/><path d="M100 26l20 16 6 54-16 4"/>
+          <path d="M60 26c6 10 14 15 20 15s14-5 20-15"/>
+          <path d="M60 26 72 56 80 41l8 15 12-30"/>
+          <path d="M50 100c2 36 4 66 6 86h48c2-20 4-50 6-86"/></g>
+          <path d="M80 41v28" stroke="#8E1E3C" stroke-width="1.2"/></svg></div>
+        <div class="t"><h4>Костюмы</h4><span>в канале</span></div>
+      </a>
+      <a class="cat reveal" href="https://t.me/garderob_store_chelny" target="_blank" rel="noopener">
+        <div class="frame"><svg viewBox="0 0 160 220" aria-hidden="true"><g fill="none" stroke="#16151A" stroke-width="2" stroke-linecap="round" opacity=".8">
+          <path d="M58 24 34 44l-8 62 18 5"/><path d="M102 24l24 20 8 62-18 5"/>
+          <path d="M58 24c0 9 10 14 22 14s22-5 22-14"/>
+          <path d="M46 70c-2 48-4 88-6 118h80c-2-30-4-70-6-118"/>
+          <path d="M80 38v150" stroke-width="1.4"/><path d="M62 96h12M86 96h12" stroke-width="1.4"/></g>
+          <circle cx="80" cy="76" r="3" fill="#8E1E3C"/><circle cx="80" cy="104" r="3" fill="#8E1E3C"/></svg></div>
+        <div class="t"><h4>Верхняя одежда</h4><span>в канале</span></div>
+      </a>
+      <a class="cat reveal" href="https://t.me/garderob_store_chelny" target="_blank" rel="noopener">
+        <div class="frame"><svg viewBox="0 0 160 220" aria-hidden="true"><g fill="none" stroke="#16151A" stroke-width="2" stroke-linecap="round" opacity=".8">
+          <path d="M56 36h26c2 42 6 78 14 108H52c-4-30-2-70 4-108z"/>
+          <path d="M96 144c14 10 26 18 26 28H52"/>
+          <path d="M56 60h26"/></g>
+          <path d="M96 172c10 0 18 2 26 0" stroke="#8E1E3C" stroke-width="2"/></svg></div>
+        <div class="t"><h4>Обувь</h4><span>в канале</span></div>
+      </a>
+      <a class="cat reveal" href="https://t.me/garderob_store_chelny" target="_blank" rel="noopener">
+        <div class="frame"><svg viewBox="0 0 160 220" aria-hidden="true"><g fill="none" stroke="#16151A" stroke-width="2" stroke-linecap="round" opacity=".8">
+          <path d="M58 44 36 60l10 34 14-4"/><path d="M102 44l22 16-10 34-14-4"/>
+          <path d="M58 44c6 7 14 11 22 11s16-4 22-11"/>
+          <path d="M60 60c-2 40-4 76-6 104h52c-2-28-4-64-6-104"/>
+          <path d="M60 96h40M60 120h40" stroke-width="1.2" opacity=".55"/></g>
+          <path d="M70 148h20" stroke="#8E1E3C" stroke-width="1.4"/></svg></div>
+        <div class="t"><h4>Трикотаж</h4><span>в канале</span></div>
+      </a>
+      <a class="cat reveal" href="https://t.me/garderob_store_chelny" target="_blank" rel="noopener">
+        <div class="frame"><svg viewBox="0 0 160 220" aria-hidden="true"><g fill="none" stroke="#16151A" stroke-width="2" stroke-linecap="round" opacity=".8">
+          <path d="M44 86h72l-6 86H50z"/><path d="M62 86V66a18 18 0 0 1 36 0v20"/>
+          <path d="M44 110h72" stroke-width="1.2" opacity=".5"/></g>
+          <rect x="72" y="124" width="16" height="12" fill="none" stroke="#8E1E3C" stroke-width="2"/></svg></div>
+        <div class="t"><h4>Сумки и аксессуары</h4><span>в канале</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- КАК КУПИТЬ -->
+<section class="band band--alt" id="how">
+  <div class="wrap">
+    <p class="eyebrow reveal">Как купить</p>
+    <h2 class="h2 reveal">Четыре шага, без оплаты до примерки</h2>
+    <p class="lead reveal">Мы не просим вносить деньги вперёд и не торопим в примерочной.
+      Вещь можно отложить и приехать посмотреть вживую.</p>
+    <div class="steps">
+      <div class="step reveal"><i>01</i><h4>Смотрите канал</h4><p>Новинки выкладываем с фото, размерами и ценой. Там же — что осталось в единственном экземпляре.</p></div>
+      <div class="step reveal"><i>02</i><h4>Пишете менеджеру</h4><p>Скидываете скриншот вещи и свой размер. Подскажем, как садится и с чем носить.</p></div>
+      <div class="step reveal"><i>03</i><h4>Откладываем на сутки</h4><p>Держим вещь 24 часа в удобном для вас шоуруме. Без предоплаты.</p></div>
+      <div class="step reveal"><i>04</i><h4>Примеряете</h4><p>Приходите, пробуете, берёте только если село. Не подошло — ничего не платите.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- КВИЗ -->
+<section class="band" id="quiz">
+  <div class="wrap">
+    <p class="eyebrow reveal">Подбор образа</p>
+    <h2 class="h2 reveal">Четыре вопроса — и менеджер знает, что вам показать</h2>
+    <p class="lead reveal">Вместо пролистывания всего канала: ответьте, и получите подборку под повод и фигуру,
+      а вместе с ней — код на бронь вещей на двое суток вместо одних.</p>
+
+    <div class="quiz reveal">
+      <p class="eyebrow" style="color:var(--mist)"><span id="qnum">Вопрос 1 из 4</span></p>
+      <div class="qbar"><i id="qfill"></i></div>
+
+      <div class="qstep on" data-q="1">
+        <h3>Куда собираетесь?</h3>
+        <div class="opts">
+          <button class="opt" data-v="работа"><b>Каждый день, работа</b><span>Нужно комфортно и уместно</span></button>
+          <button class="opt" data-v="вечер"><b>Вечер, фотосессия, праздник</b><span>Хочу, чтобы запомнили</span></button>
+          <button class="opt" data-v="город"><b>Город, прогулки, кофе</b><span>Удобно, но не спортивно</span></button>
+          <button class="opt" data-v="база"><b>Собираю базовый гардероб</b><span>Чтобы всё сочеталось между собой</span></button>
+        </div>
+      </div>
+
+      <div class="qstep" data-q="2">
+        <h3>Что обычно сложно подобрать?</h3>
+        <div class="opts">
+          <button class="opt" data-v="бёдра"><b>Низ: джинсы и брюки</b><span>В бёдрах впору — в поясе велико</span></button>
+          <button class="opt" data-v="грудь"><b>Верх: рубашки и пиджаки</b><span>Тянет в груди или висит в плечах</span></button>
+          <button class="opt" data-v="рост"><b>Длина</b><span>Высокий или невысокий рост, всё не по длине</span></button>
+          <button class="opt" data-v="обувь"><b>Обувь</b><span>Узкая или полная стопа</span></button>
+        </div>
+      </div>
+
+      <div class="qstep" data-q="3">
+        <h3>Что ближе по стилю?</h3>
+        <div class="opts">
+          <button class="opt" data-v="минимал"><b>Минимализм</b><span>Чистые линии, спокойные цвета</span></button>
+          <button class="opt" data-v="класс"><b>Классика</b><span>Костюмы, рубашки, лодочки</span></button>
+          <button class="opt" data-v="романтика"><b>Романтика</b><span>Платья, мягкие ткани, детали</span></button>
+          <button class="opt" data-v="street"><b>Свободный</b><span>Оверсайз, кроссовки, многослойность</span></button>
+        </div>
+      </div>
+
+      <div class="qstep" data-q="4">
+        <h3>Какой бюджет на один образ комфортен?</h3>
+        <div class="opts">
+          <button class="opt" data-v="b1"><b>До 5 000 ₽</b><span>Одна-две вещи</span></button>
+          <button class="opt" data-v="b2"><b>5 000 – 12 000 ₽</b><span>Полный образ</span></button>
+          <button class="opt" data-v="b3"><b>12 000 – 25 000 ₽</b><span>Образ с обувью и сумкой</span></button>
+          <button class="opt" data-v="b4"><b>Пока смотрю</b><span>Сначала хочу примерить</span></button>
+        </div>
+      </div>
+
+      <div class="qres" id="qres">
+        <p class="eyebrow">Ваша подборка</p>
+        <h3 style="font-family:var(--display);font-size:clamp(21px,3vw,32px);line-height:1.1;margin-block:14px 12px" id="resTitle">—</h3>
+        <p class="lead" id="resText">—</p>
+        <p class="quote" style="margin-top:18px" id="resTip">—</p>
+        <div class="promo">
+          <div style="flex:1;min-width:0">
+            <p style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mist)">Код на бронь 48 часов вместо 24</p>
+            <code id="resCode">GARDEROB-0000</code>
+          </div>
+          <button class="btn btn--ghost" id="copyCode"><span>Скопировать</span></button>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <a class="btn" href="https://t.me/garderobstore_chelnyy" target="_blank" rel="noopener"><span>Отправить менеджеру</span></a>
+          <a class="btn btn--ghost" href="#looks"><span>Посмотреть капсулы</span></a>
+        </div>
+        <button class="qback" id="qrestart">← Пройти заново</button>
+      </div>
+
+      <button class="qback" id="qback" hidden>← Назад</button>
+    </div>
+  </div>
+</section>
+
+<!-- КАПСУЛЫ -->
+<section class="band band--alt" id="looks">
+  <div class="wrap">
+    <p class="eyebrow reveal">Капсулы</p>
+    <h2 class="h2 reveal">Готовые сочетания, которые работают</h2>
+    <p class="lead reveal">Собираем комплекты, где вещи сочетаются между собой: берёте три предмета —
+      получаете шесть образов. Состав и цены подставим из вашего канала.</p>
+    <div class="looks reveal">
+      <article class="look">
+        <div class="frame"><svg viewBox="0 0 200 270" aria-hidden="true"><g fill="none" stroke="#16151A" stroke-width="2" stroke-linecap="round" opacity=".8">
+          <path d="M74 30 50 48l-8 46 16 5"/><path d="M126 30l24 18 8 46-16 5"/>
+          <path d="M74 30c6 8 15 12 26 12s20-4 26-12"/>
+          <path d="M60 70c-3 48-7 110-12 160h104c-5-50-9-112-12-160"/></g>
+          <path d="M100 42v188" stroke="#8E1E3C" stroke-width="1.2" opacity=".5"/></svg>
+          <span class="ph">место под фото</span></div>
+        <div class="t"><h4>Офис, который не душит</h4><p>Для пятидневки и переговоров</p>
+          <ul><li>Костюм прямого кроя</li><li>Трикотаж под пиджак</li><li>Лоферы</li></ul></div>
+      </article>
+      <article class="look">
+        <div class="frame"><svg viewBox="0 0 200 270" aria-hidden="true"><g fill="none" stroke="#16151A" stroke-width="2" stroke-linecap="round" opacity=".8">
+          <path d="M78 32c0 9 10 14 22 14s22-5 22-14"/>
+          <path d="M78 32 56 50l-10 40 14 6 8-20"/><path d="M122 32l22 18 10 40-14 6-8-20"/>
+          <path d="M68 76c-6 52-14 110-22 154 18 8 36 12 54 12s36-4 54-12c-8-44-16-102-22-154"/></g>
+          <path d="M100 46v196" stroke="#8E1E3C" stroke-width="1.2" opacity=".5"/>
+          <circle cx="100" cy="110" r="3.5" fill="#8E1E3C"/></svg>
+          <span class="ph">место под фото</span></div>
+        <div class="t"><h4>Вечер в городе</h4><p>Когда повод один, а фото останутся</p>
+          <ul><li>Платье с акцентом</li><li>Сумка-клатч</li><li>Обувь на устойчивом каблуке</li></ul></div>
+      </article>
+      <article class="look">
+        <div class="frame"><svg viewBox="0 0 200 270" aria-hidden="true"><g fill="none" stroke="#16151A" stroke-width="2" stroke-linecap="round" opacity=".8">
+          <path d="M72 34 46 54l-8 52 18 5"/><path d="M128 34l26 20 8 52-18 5"/>
+          <path d="M72 34c8 8 18 12 28 12s20-4 28-12"/>
+          <path d="M56 82c-2 40-4 72-6 96h100c-2-24-4-56-6-96"/>
+          <path d="M72 178c-2 24-4 40-6 52M128 178c2 24 4 40 6 52"/></g>
+          <path d="M100 46v132" stroke="#8E1E3C" stroke-width="1.2" opacity=".5"/></svg>
+          <span class="ph">место под фото</span></div>
+        <div class="t"><h4>База на межсезонье</h4><p>Три вещи — шесть сочетаний</p>
+          <ul><li>Пальто прямого кроя</li><li>Прямые брюки</li><li>Базовый трикотаж</li></ul></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ШОУРУМЫ -->
+<section class="band" id="rooms">
+  <div class="wrap">
+    <p class="eyebrow reveal">Адреса</p>
+    <h2 class="h2 reveal">Три шоурума в Набережных Челнах</h2>
+    <p class="lead reveal">Ассортимент в залах различается: если ищете конкретную вещь, напишите менеджеру —
+      подскажем, в каком шоуруме она сейчас, и отложим.</p>
+    <div class="rooms">
+      <article class="room reveal"><i>Шоурум 01</i><h4>Вахитова, 32</h4>
+        <p>Ориентир и вход — уточнить у клиента</p><p class="h">Ежедневно 10:00–21:00</p></article>
+      <article class="room reveal"><i>Шоурум 02</i><h4>Сармановский тракт, 53</h4>
+        <p>Ориентир и вход — уточнить у клиента</p><p class="h">Ежедневно 10:00–21:00</p></article>
+      <article class="room reveal"><i>Шоурум 03</i><h4>Яшьлек, 6Б/1</h4>
+        <p>Ориентир и вход — уточнить у клиента</p><p class="h">Ежедневно 10:00–21:00</p></article>
+    </div>
+    <p class="lead reveal" style="margin-top:22px">
+      <a href="https://2gis.ru/nabchelny/geo/70000001084250399" target="_blank" rel="noopener"
+         style="color:var(--cherry);text-decoration:none;border-bottom:1px solid currentColor">Построить маршрут в 2ГИС →</a>
+    </p>
+  </div>
+</section>
+
+<!-- ОТЗЫВЫ -->
+<section class="band band--alt">
+  <div class="wrap">
+    <p class="eyebrow reveal">Отзывы</p>
+    <h2 class="h2 reveal">Что говорят покупательницы</h2>
+    <p class="lead reveal">Здесь встанут настоящие отзывы — из карточки 2ГИС и из переписок с менеджером,
+      с именем и датой. Три рамки ниже — место под них.</p>
+    <div class="revs">
+      <article class="rev slot reveal"><p class="st">★★★★★</p>
+        <p>Отзыв 1. Скопируйте текст из карточки 2ГИС или возьмите скриншот переписки
+          с разрешения покупательницы.</p><b>Имя</b><span>дата · шоурум</span></article>
+      <article class="rev slot reveal"><p class="st">★★★★★</p>
+        <p>Отзыв 2. Лучше всего работают конкретные: что искала, что примерила, как село,
+          сколько времени заняло.</p><b>Имя</b><span>дата · шоурум</span></article>
+      <article class="rev slot reveal"><p class="st">★★★★★</p>
+        <p>Отзыв 3. Выдуманные отзывы ставить нельзя — это недостоверная реклама,
+          и покупательницы распознают их сразу.</p><b>Имя</b><span>дата · шоурум</span></article>
+    </div>
+
+    <div class="gr">
+      <div class="reveal">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+          <path d="M17 2 4 7v11c0 8 5.4 13.6 13 15.6C24.6 31.6 30 26 30 18V7z" stroke="#8E1E3C" stroke-width="1.4"/>
+          <path d="m11.5 17 4 4 7.5-8.5" stroke="#8E1E3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>Обмен и возврат 14 дней</h4>
+        <p>По закону о защите прав потребителей, если вещь не носили и сохранён чек. Обувь — тоже.</p>
+      </div>
+      <div class="reveal">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+          <rect x="3" y="8" width="28" height="18" rx="2" stroke="#8E1E3C" stroke-width="1.4"/>
+          <path d="M3 14h28M8 20h6" stroke="#8E1E3C" stroke-width="1.4"/></svg>
+        <h4>Оплата частями</h4>
+        <p>Картой, переводом или частями — условия уточнить у клиента и дописать здесь.</p>
+      </div>
+      <div class="reveal">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+          <circle cx="17" cy="17" r="14" stroke="#8E1E3C" stroke-width="1.4"/>
+          <path d="M17 9v8l6 4" stroke="#8E1E3C" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <h4>Бронь без предоплаты</h4>
+        <p>Держим вещь 24 часа, по коду из подбора — 48. Не приехали, не подошло — ничего не платите.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="band" id="faq">
+  <div class="wrap">
+    <p class="eyebrow reveal">Вопросы</p>
+    <h2 class="h2 reveal">О чём спрашивают в личных сообщениях</h2>
+    <div class="faq reveal">
+      <details open><summary>Как узнать, что есть в наличии прямо сейчас?</summary>
+        <p>Актуальное — в Telegram-канале: там новинки с фото, размерами и ценой. Наличие меняется ежедневно,
+          поэтому сайт на размеры не ссылается — напишите менеджеру, он проверит по трём шоурумам сразу.</p></details>
+      <details><summary>Можно примерить без покупки?</summary>
+        <p>Да, это и есть смысл шоурума. Примерка бесплатна и ни к чему не обязывает, предоплату мы не берём.</p></details>
+      <details><summary>А если не угадаю с размером?</summary>
+        <p>Напишите менеджеру свои параметры и рост — подскажем, как вещь садится и какой размер брать.
+          Можно отложить две соседние размерности и примерить обе.</p></details>
+      <details><summary>Сколько держите отложенную вещь?</summary>
+        <p>Сутки. По коду из подбора образа — двое суток. Если не успеваете, просто напишите, продлим.</p></details>
+      <details><summary>Можно вернуть, если дома передумала?</summary>
+        <p>Да, в течение 14 дней, если вещь не носили, сохранены бирки и чек. Это требование закона,
+          а не наша добрая воля — и обуви оно тоже касается.</p></details>
+      <details><summary>Доставляете в другие города?</summary>
+        <p>Условия доставки и оплаты уточните у менеджера — этот блок дописывается под реальные правила шоурума.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ФИНАЛЬНЫЙ CTA -->
+<section class="band band--alt" id="final">
+  <div class="wrap final">
+    <div class="reveal">
+      <p class="eyebrow">Связаться</p>
+      <h2 class="h2">Напишите — подберём и отложим</h2>
+      <p class="lead">Менеджер отвечает в рабочее время. Пришлите скриншот вещи из канала и свой размер,
+        остальное сделаем сами.</p>
+      <p class="quote" style="margin-top:20px">«Примерка ни к чему не обязывает — приходите смотреть».</p>
+      <div class="hero-cta">
+        <a class="btn" href="https://t.me/garderobstore_chelnyy" target="_blank" rel="noopener"><span>Написать менеджеру</span></a>
+        <a class="btn btn--ghost" href="https://t.me/garderob_store_chelny" target="_blank" rel="noopener"><span>Подписаться на канал</span></a>
+      </div>
+    </div>
+    <ul class="contacts reveal">
+      <li><span>Менеджер</span><span>@garderobstore_chelnyy<button class="copy" data-copy="@garderobstore_chelnyy">копировать</button></span></li>
+      <li><span>Канал</span><span>t.me/garderob_store_chelny</span></li>
+      <li><span>Шоурумы</span><span>Вахитова 32 · Сармановский тракт 53 · Яшьлек 6Б/1</span></li>
+      <li><span>Часы</span><span>Ежедневно 10:00–21:00</span></li>
+      <li><span>Город</span><span>Набережные Челны</span></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>Garderob Store · шоурум женской одежды и обуви · Набережные Челны</span>
+    <span>Демонстрационная версия. Фото, цены и отзывы — место под реальные данные.</span>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky">
+  <div class="txt"><b>Отложим вещь на 24 часа</b><span>Без предоплаты · примерка ни к чему не обязывает</span></div>
+  <a class="btn" href="https://t.me/garderobstore_chelnyy" target="_blank" rel="noopener"><span>Написать</span></a>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(!reduce) document.documentElement.classList.add("anim");
+
+  var toastEl = document.getElementById("toast"), tT;
+  function toast(m){ toastEl.textContent = m; toastEl.classList.add("on");
+    clearTimeout(tT); tT = setTimeout(function(){ toastEl.classList.remove("on"); }, 2600); }
+
+  var revs = [].slice.call(document.querySelectorAll(".reveal"));
+  if("IntersectionObserver" in window && !reduce){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        var sibs = [].slice.call(e.target.parentNode.children).filter(function(n){return n.classList.contains("reveal");});
+        e.target.style.transitionDelay = Math.min(sibs.indexOf(e.target),5)*70 + "ms";
+        e.target.classList.add("in"); io.unobserve(e.target);
+      });
+    },{rootMargin:"0px 0px -8% 0px",threshold:.08});
+    revs.forEach(function(r){ io.observe(r); });
+  } else { revs.forEach(function(r){ r.classList.add("in"); }); }
+
+  var prog = document.getElementById("prog"), sticky = document.getElementById("sticky");
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.width = (h>0 ? window.scrollY/h*100 : 0) + "%";
+    sticky.classList.toggle("on", window.scrollY > window.innerHeight*0.9);
+  }
+  addEventListener("scroll", onScroll, {passive:true}); onScroll();
+
+  /* квиз */
+  var steps = [].slice.call(document.querySelectorAll(".qstep")),
+      qfill = document.getElementById("qfill"), qnum = document.getElementById("qnum"),
+      qres = document.getElementById("qres"), qback = document.getElementById("qback"),
+      answers = [], cur = 0;
+
+  function showStep(i){
+    steps.forEach(function(s,k){ s.classList.toggle("on", k===i); });
+    qres.classList.remove("on");
+    qfill.style.width = ((i+1)/steps.length*100) + "%";
+    qnum.textContent = "Вопрос " + (i+1) + " из " + steps.length;
+    qback.hidden = i===0; cur = i;
+  }
+  var OCC = {
+    "работа":"Капсула «Офис, который не душит»",
+    "вечер":"Капсула «Вечер в городе»",
+    "город":"Капсула «База на межсезонье»",
+    "база":"Капсула «База на межсезонье»"
+  };
+  var FIT = {
+    "бёдра":"Покажем низ с высокой посадкой и поясом на резинке — он не велик в поясе при объёме в бёдрах.",
+    "грудь":"Подберём верх со свободной проймой и запахом: не тянет в груди и не висит в плечах.",
+    "рост":"Отберём вещи с подходящей длиной и подскажем, что из этого можно укоротить без потери кроя.",
+    "обувь":"Отложим две соседние размерности и пару моделей разной полноты — примерите рядом."
+  };
+  var STYLE = {
+    "минимал":"спокойная палитра и чистый крой","класс":"костюмы, рубашки и устойчивый каблук",
+    "романтика":"платья, мягкие ткани и детали","street":"оверсайз, многослойность и удобная обувь"
+  };
+  var BUD = {
+    "b1":"Начнём с одной вещи, которая сочетается с тем, что уже есть в шкафу.",
+    "b2":"Хватит на полный образ: верх, низ и один акцент.",
+    "b3":"Соберём образ целиком, вместе с обувью и сумкой.",
+    "b4":"Сначала просто примерка — отложим подборку и посмотрите вживую, без оплаты."
+  };
+  function finish(){
+    document.getElementById("resTitle").textContent =
+      (OCC[answers[0]] || "Персональная подборка") + " · " + (STYLE[answers[2]] || "спокойный крой");
+    document.getElementById("resText").textContent = (FIT[answers[1]] || "") + " " + (BUD[answers[3]] || "");
+    document.getElementById("resTip").textContent =
+      "Пришлите этот код менеджеру — соберём подборку из наличия всех трёх шоурумов.";
+    var code = "GARDEROB-" + String(Math.floor(1000 + Math.random()*9000));
+    document.getElementById("resCode").textContent = code;
+    try{ localStorage.setItem("garderob_code", code); }catch(e){}
+    steps.forEach(function(s){ s.classList.remove("on"); });
+    qres.classList.add("on"); qfill.style.width = "100%";
+    qnum.textContent = "Готово · ваша подборка"; qback.hidden = true;
+  }
+  steps.forEach(function(s,i){
+    [].slice.call(s.querySelectorAll(".opt")).forEach(function(o){
+      o.addEventListener("click", function(){
+        answers[i] = o.dataset.v;
+        if(i+1 < steps.length) showStep(i+1); else finish();
+      });
+    });
+  });
+  qback.addEventListener("click", function(){ if(cur>0) showStep(cur-1); });
+  document.getElementById("qrestart").addEventListener("click", function(){ answers = []; showStep(0); });
+  showStep(0);
+
+  function copyText(t, ok){
+    try{ navigator.clipboard.writeText(t).then(function(){ toast(ok); },
+      function(){ toast("Не вышло скопировать — выделите текст вручную"); }); }
+    catch(e){ toast("Не вышло скопировать — выделите текст вручную"); }
+  }
+  document.getElementById("copyCode").addEventListener("click", function(){
+    copyText(document.getElementById("resCode").textContent, "Код скопирован — отправьте его менеджеру");
+  });
+  [].slice.call(document.querySelectorAll(".copy")).forEach(function(b){
+    b.addEventListener("click", function(){ copyText(b.dataset.copy, "Скопировано"); });
+  });
+})();
+</script>
