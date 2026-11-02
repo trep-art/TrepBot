@@ -18,7 +18,8 @@ HERE = pathlib.Path(__file__).parent
 DIST = HERE / "dist"
 
 # ─── ЗАМЕНИТЬ НА ДАННЫЕ КЛИЕНТА ПЕРЕД ПУБЛИКАЦИЕЙ ───────────────────────
-SITE  = "https://garderob-store.ru"       # домен клиента, без слэша на конце
+SITE  = "https://garderob-store.ru"       # адрес сайта, без слэша на конце;
+                                          # для демо — адрес на бесплатном хостинге
 BRAND = "Garderob Store"
 DESC  = ("Garderob Store — женская одежда, обувь и аксессуары в Казани и Набережных "
          "Челнах. Новинки несколько раз в неделю, примерка без предоплаты, "
@@ -100,7 +101,7 @@ head = f"""<!doctype html>
 <meta property="og:url" content="{SITE}/">
 <meta property="og:image" content="{SITE}/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>
   :root{{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}}
   body{{margin:0;font:14px system-ui,sans-serif}}
